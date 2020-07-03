@@ -55,6 +55,15 @@ input {
   font-family: 'Playfair Display', serif;
 }
 
+.info h3{
+  font-size: 1rem;
+  line-height: 10px;
+}
+
+.info {
+  width: 95%;
+}
+
 :host mat-card-title {
   font-family: 'Playfair Display', serif;
   font-size: 25px;
@@ -92,20 +101,6 @@ input {
 }
 
 .pagination-panel {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  text-align: center;
-}
-
-.pagination-panel-bottom {
-  // position: fixed;
-  // overflow: hidden;
-  // bottom: 0;
-  // margin-top: 50px;
-  // right: 0px;
-  // left: 0px;
-  // height: 30px;
   display: flex;
   justify-content: space-between;
   width: 100%;

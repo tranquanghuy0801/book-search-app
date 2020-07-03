@@ -1,7 +1,11 @@
 <div class="content">
 	<h1>Search</h1>
-	<input type="text" placeholder="Search book" aria-label="Number" class="mat-elevation-z2" matInput
-		[formControl]="searchControl">
+	<input class="mat-elevation-z2" #searchBox type="text" [value]="searchTerm" id="search-box" (keyup)="search(searchBox.value)" />
+	<br>
+	<mat-card class="info">
+		<h2>{{ numHits }} Results</h2>
+    	<h3>Displaying Results {{ searchOffset }} - {{ searchOffset + 9 }}</h3>
+	</mat-card>
 	<br>
 	<div class="pagination-panel">
 		<mat-card class="mat-but">
@@ -26,14 +30,14 @@
 						<mat-card-content>Page: {{ hit._source.location }}</mat-card-content>
 					</div>
 					<mat-card-actions>
-						<button fxFlex mat-flat-button (click)="showBookModal(hit)" color="primary">
+						<button fxFlex mat-flat-button (click)="showBookModal(hit,hit._source.location)" color="primary">
 							View Book
 						</button>
 					</mat-card-actions>
 				</mat-card>
 			</div>
 		</div>
-		<div fxLayout="row" fxLayoutAlign="start end">
+		<div *ngIf="numHits != 0" fxLayout="row" fxLayoutAlign="start end">
 			<div fxFlex class="pagination-panel">
 				<mat-card class="mat-but">
 					<button mat-flat-button (click)="prevResultsPage()">PREV PAGE</button>
@@ -71,13 +75,13 @@
 
 		<!-- Book Pagination Footer -->
 		<div class="modal-footer">
-			<button mat-flat-button (click)="closeBookModal()">
+			<button mat-flat-button (click)="prevBookPage()">
 				<h3>PREV PAGE</h3>
 			</button>
 			<button mat-flat-button (click)="closeBookModal()">
 				<h3>CLOSE</h3>
 			</button>
-			<button mat-flat-button (click)="closeBookModal()">
+			<button mat-flat-button (click)="nextBookPage()">
 				<h3>NEXT PAGE</h3>
 			</button>
 		</div>

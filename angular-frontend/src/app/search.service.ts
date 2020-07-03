@@ -9,20 +9,14 @@ import { map } from "rxjs/operators";
 export class SearchService {
 
 	baseUrl: string = environment.apiUrl
-	searchTerm: string = "Harry"
-	searchResult: Array<string> = []
-	numHits: number = null
-	searchOffset: number = 0
-
-
 
 	constructor( private Http: HttpClient) { }
 
-	search() {
+	search(searchTerm,searchOffset) {
 		let headers = new HttpHeaders()
 		headers = headers.append('Content-Type', 'application/json')
 		let params = new HttpParams();
-		params = params.append("term",this.searchTerm).append("offset",this.searchOffset.toString());
+		params = params.append("term",searchTerm).append("offset",searchOffset.toString());
 		return this.Http.get(this.baseUrl + '/search',{ params: params});
 	}
 

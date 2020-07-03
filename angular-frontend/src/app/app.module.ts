@@ -10,7 +10,6 @@ import { BookComponent } from './book/book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
-import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 
 
 @NgModule({
@@ -18,8 +17,7 @@ import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 		AppComponent,
 		BookComponent,
 		HeaderComponent,
-		SidenavListComponent,
-		AlertDialogComponent
+		SidenavListComponent
 	],
 	imports: [
 		BrowserModule,
