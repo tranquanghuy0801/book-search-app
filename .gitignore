@@ -49,6 +49,8 @@ bower_components
 .sass-cache
 connect.lock
 typings
+server/books.zip
+server/books/
 
 # Logs
 logs
