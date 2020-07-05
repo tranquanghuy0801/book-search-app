@@ -4,7 +4,7 @@ This application has full-text search capability using Angular (frontend), Node.
 
 ## Build Instructions
 
-- Download books data
+- Download books data and unzip to server directory
 
 ```bash
 wget https://cdn.patricktriest.com/data/books.zip --no-check-certificate -P server/

@@ -69,13 +69,13 @@ async function readAndInsertBooks () {
     await esConnection.resetIndex()
 
     // Read books directory
-    let files = fs.readdirSync('../data/books').filter(file => file.slice(-4) === '.txt')
+    let files = fs.readdirSync('./books').filter(file => file.slice(-4) === '.txt')
     console.log(`Found ${files.length} Files`)
 
     // Read each book file, and index each paragraph in elasticsearch
     for (let file of files) {
       console.log(`Reading File - ${file}`)
-      const filePath = path.join('../data/books', file)
+      const filePath = path.join('./books', file)
       const { title, author, paragraphs } = parseBookFile(filePath)
       await insertBookData(title, author, paragraphs)
     }

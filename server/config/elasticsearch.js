@@ -1,7 +1,6 @@
 module.exports = {
     port: 9200,
-    host: 'gs-search', // using docker
-    // host: 'localhost', // using local
+    host: process.env.HOST || 'localhost',
     index: 'library',
     type: 'book'
 
