@@ -11,13 +11,13 @@ services:
     volumes: # Attach local book data directory
       - ./server/books:/usr/src/server/books
 
-  frontend: # Server For Frontend App
-    container_name: gs-frontend
-    build: angular-frontend
-    ports:
-      - "8000:80" # Forward site to localhost:4200
-    depends_on:
-      - api
+  # frontend: # Server For Frontend App
+  #   container_name: gs-frontend
+  #   build: angular-frontend
+  #   ports:
+  #     - "8000:80" # Forward site to localhost:4200
+  #   depends_on:
+  #     - api
 
   elasticsearch: # Elasticsearch Instance
     container_name: gs-search

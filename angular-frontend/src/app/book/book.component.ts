@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../search.service';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
 	selector: 'app-book',
@@ -9,7 +9,6 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 	styleUrls: ['./book.component.scss']
 })
 export class BookComponent implements OnInit {
-
 	searchTerm: string = "Harry";
 	searchOffset: number = 0;
 	numHits: number = 0;
@@ -19,23 +18,48 @@ export class BookComponent implements OnInit {
 	errorMessage: String = "";
 	bookOffset: number = 0;
 	selectedParagraph: any = null;
+	debouncedInputValue = this.searchTerm;
+	private searchDecouncer$: Subject<string> = new Subject();;
 
 	constructor(private searchService: SearchService) {
 	}
 
 	ngOnInit() {
-		this.getData(this.searchTerm,this.searchOffset);
+
+		// Setup debouncer
+		this.setupSearchDebouncer();
+
+		// Do initial search for 'darth'
+		this.search(this.searchTerm);
+	}
+
+	public onSearchInputChange(term: string): void {
+		// `onSearchInputChange` is called whenever the input is changed.
+		// We have to send the value to debouncing observable
+		this.searchDecouncer$.next(term);
+	}
+
+	private setupSearchDebouncer(): void {
+		// Subscribe to `searchDecouncer$` values,
+		// but pipe through `debounceTime` and `distinctUntilChanged`
+		this.searchDecouncer$.pipe(
+		  debounceTime(250),
+		  distinctUntilChanged(),
+		).subscribe((term: string) => {
+		  // Remember value after debouncing
+		  this.debouncedInputValue = term;
+	
+		  // Do the actual search
+		  this.search(term);
+		});
 	}
 
 	search(term: string): void {
-		debounceTime(300);
-		setTimeout(async () => {
-			this.searchOffset = 0
-			if (term !== ''){
-				this.getData(term,this.searchOffset);
-			}
-			
-		}, 100)
+
+		this.searchOffset = 0
+		if (term !== '') {
+			this.getData(term, this.searchOffset);
+		}
 	}
 
 	getData(searchTerm,searchOffset) {

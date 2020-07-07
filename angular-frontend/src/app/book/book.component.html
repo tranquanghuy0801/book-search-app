@@ -1,91 +1,96 @@
 <div class="content">
 	<h1>Search</h1>
-	<input class="mat-elevation-z2" #searchBox type="text" [value]="searchTerm" id="search-box" (keyup)="search(searchBox.value)" />
+	<input class="mat-elevation-z2" [(ngModel)]="searchTerm" (ngModelChange)="onSearchInputChange($event)" />
 	<br>
-	<mat-card class="info">
-		<h2>{{ numHits }} Results</h2>
-    	<h3>Displaying Results {{ searchOffset }} - {{ searchOffset + 9 }}</h3>
-	</mat-card>
-	<br>
-	<div class="pagination-panel">
-		<mat-card class="mat-but">
-			<button mat-flat-button (click)="prevResultsPage()">PREV PAGE</button>
-		</mat-card>
-		<mat-card class="mat-but">
-			<button mat-flat-button (click)="nextResultsPage()">NEXT PAGE</button>
-		</mat-card>
-	</div>
-	<br>
-	<div fxFlex fxLayout="column" fxLayoutGap="10px" fxLayoutWrap style="height: 100vh">
-		<div fxLayout="row wrap">
-			<!-- loop over the cardList and show the cards -->
-			<div *ngFor="let hit of searchResults" fxFlex="25" fxFlex.md="33" fxFlex.sm="50" fxFlex.xs="100"
-				fxLayout="column" style="padding: 7px;">
-				<!-- cards here -->
-				<mat-card class="mat-elevation-z1">
-					<div class="cardbody">
-						<h3 [innerHTML]="addStrongTag(hit.highlight.text[0])"></h3>
-						<hr>
-						<h3>{{ hit._source.title }} - {{ hit._source.author }}</h3>
-						<mat-card-content>Page: {{ hit._source.location }}</mat-card-content>
-					</div>
-					<mat-card-actions>
-						<button fxFlex mat-flat-button (click)="showBookModal(hit,hit._source.location)" color="primary">
-							View Book
-						</button>
-					</mat-card-actions>
-				</mat-card>
-			</div>
-		</div>
-		<div *ngIf="numHits != 0" fxLayout="row" fxLayoutAlign="start end">
-			<div fxFlex class="pagination-panel">
-				<mat-card class="mat-but">
-					<button mat-flat-button (click)="prevResultsPage()">PREV PAGE</button>
-				</mat-card>
-				<mat-card class="mat-but">
-					<button mat-flat-button (click)="nextResultsPage()">NEXT PAGE</button>
-				</mat-card>
-			</div>
-		</div>
-	</div>
-	<br>
-	<!-- Book Paragraphs Modal Window -->
-	<div *ngIf="selectedParagraph" class="book-modal">
-		<div class="paragraphs-container">
-			<!-- Book Section Metadata -->
-			<div class="title-row">
-				<mat-card-title>{{ selectedParagraph._source.title }}</mat-card-title>
-				<mat-card-title>{{ selectedParagraph._source.author }}</mat-card-title>
-			</div>
-			<hr>
-			<div class="mui--text-subhead locations-label"><h3>Pages {{ bookOffset - 5 }} to {{ bookOffset + 5 }}</h3></div>
-			<hr>
-
-			<!-- Book Paragraphs -->
-			<div *ngFor="let paragraph of paragraphs">
-				<div *ngIf="paragraph._source.location === selectedParagraph._source.location" class="mui--text-body2">
-					<p><strong>{{ paragraph._source.text }}</strong></p>
-				</div>
-				<div *ngIf="paragraph._source.location !== selectedParagraph._source.location" class="mui--text-body1">
-					<p>{{ paragraph._source.text }}</p>
-				</div>
-				<br>
-			</div>
-		</div>
-
-		<!-- Book Pagination Footer -->
-		<div class="modal-footer">
-			<button mat-flat-button (click)="prevBookPage()">
-				<h3>PREV PAGE</h3>
-			</button>
-			<button mat-flat-button (click)="closeBookModal()">
-				<h3>CLOSE</h3>
-			</button>
-			<button mat-flat-button (click)="nextBookPage()">
-				<h3>NEXT PAGE</h3>
-			</button>
-		</div>
-	</div>
-
-
 </div>
+
+<mat-card class="card">
+	<mat-card-title>{{ numHits }} Results</mat-card-title>
+
+	<mat-card-subtitle>
+		Displaying Results {{ searchOffset }} - {{ searchOffset + 9 }}<br>
+	</mat-card-subtitle>
+
+	<mat-card-content>
+
+		<div class="pagination-panel">
+			<mat-card class="mat-but">
+				<button mat-flat-button (click)="prevResultsPage()">PREV PAGE</button>
+			</mat-card>
+			<mat-card class="mat-but">
+				<button mat-flat-button (click)="nextResultsPage()">NEXT PAGE</button>
+			</mat-card>
+		</div>
+
+		<div class="main" fxLayout="row wrap" fxLayoutWrap>
+			<div fxFlex="33.3" fxFlex.sm="50" fxFlex.xs="100" *ngFor="let hit of searchResults" style="padding: 15px;">
+				<mat-grid-list cols="1" rowHeight="1:1">
+					<mat-grid-tile>
+						<div>
+							<h3 [innerHTML]="addStrongTag(hit.highlight.text[0])"></h3>
+							<hr>
+							<h3>{{ hit._source.title }} - {{ hit._source.author }}</h3>
+							<h3>Page: {{ hit._source.location }}</h3>
+						</div>
+					</mat-grid-tile>
+				</mat-grid-list>
+				<mat-card-actions>
+					<button fxFlex mat-flat-button (click)="showBookModal(hit,hit._source.location)" color="primary">
+						View Book
+					</button>
+				</mat-card-actions>
+			</div>
+		</div>
+
+		<div *ngIf="selectedParagraph" class="book-modal">
+			<div class="paragraphs-container">
+				<!-- Book Section Metadata -->
+				<div class="title-row">
+					<mat-card-title>{{ selectedParagraph._source.title }}</mat-card-title>
+					<mat-card-title>{{ selectedParagraph._source.author }}</mat-card-title>
+				</div>
+				<hr>
+				<div class="mui--text-subhead locations-label">
+					<h3>Pages {{ bookOffset - 5 }} to {{ bookOffset + 5 }}</h3>
+				</div>
+				<hr>
+
+				<!-- Book Paragraphs -->
+				<div *ngFor="let paragraph of paragraphs">
+					<div *ngIf="paragraph._source.location === selectedParagraph._source.location"
+						class="mui--text-body2">
+						<p><strong>{{ paragraph._source.text }}</strong></p>
+					</div>
+					<div *ngIf="paragraph._source.location !== selectedParagraph._source.location"
+						class="mui--text-body1">
+						<p>{{ paragraph._source.text }}</p>
+					</div>
+					<br>
+				</div>
+			</div>
+
+			<!-- Book Pagination Footer -->
+			<div class="modal-footer">
+				<button mat-flat-button (click)="prevBookPage()">
+					<h3>PREV PAGE</h3>
+				</button>
+				<button mat-flat-button (click)="closeBookModal()">
+					<h3>CLOSE</h3>
+				</button>
+				<button mat-flat-button (click)="nextBookPage()">
+					<h3>NEXT PAGE</h3>
+				</button>
+			</div>
+		</div>
+
+		<div class="pagination-panel">
+			<mat-card class="mat-but">
+				<button mat-flat-button (click)="prevResultsPage()">PREV PAGE</button>
+			</mat-card>
+			<mat-card class="mat-but">
+				<button mat-flat-button (click)="nextResultsPage()">NEXT PAGE</button>
+			</mat-card>
+		</div>
+
+	</mat-card-content>
+</mat-card>
