@@ -51,6 +51,9 @@ connect.lock
 typings
 server/books.zip
 server/books/
+booksummaries/
+booksummaries.tar.gz
+angular-frontend/src/environments/env.ts
 
 # Logs
 logs

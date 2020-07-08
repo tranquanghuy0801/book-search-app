@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "book-library-search": {
+      "hosting": {
+        "angular-frontend": [
+          "book-library-search"
+        ]
+      }
+    }
+  }
+}

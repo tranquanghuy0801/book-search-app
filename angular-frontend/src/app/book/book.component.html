@@ -24,21 +24,30 @@
 
 		<div class="main" fxLayout="row wrap" fxLayoutWrap>
 			<div fxFlex="33.3" fxFlex.sm="50" fxFlex.xs="100" *ngFor="let hit of searchResults" style="padding: 15px;">
-				<mat-grid-list cols="1" rowHeight="1:1">
-					<mat-grid-tile>
-						<div>
-							<h3 [innerHTML]="addStrongTag(hit.highlight.text[0])"></h3>
-							<hr>
-							<h3>{{ hit._source.title }} - {{ hit._source.author }}</h3>
-							<h3>Page: {{ hit._source.location }}</h3>
-						</div>
-					</mat-grid-tile>
-				</mat-grid-list>
-				<mat-card-actions>
-					<button fxFlex mat-flat-button (click)="showBookModal(hit,hit._source.location)" color="primary">
-						View Book
-					</button>
-				</mat-card-actions>
+				<mat-card>
+					<mat-grid-list cols="1" rowHeight="1:1">
+						<mat-grid-tile>
+							<div>
+								<h3 [innerHTML]="addStrongTag(hit.highlight.text[0])"></h3>
+								<hr>
+								<h2>{{ hit._source.title }}</h2>
+								<h3>Author: {{ hit._source.author }}</h3>
+								<h3>Page: {{ hit._source.location }}</h3>
+							</div>
+						</mat-grid-tile>
+
+					</mat-grid-list>
+					<mat-card-actions>
+						<button fxFlex mat-raised-button (click)="showBookModal(hit,hit._source.location)"
+							color="primary">
+							View Book
+						</button>
+						<button fxFlex mat-raised-button class="example-icon" (click)="onToggleSidenav()"
+							aria-label="Example icon-button with menu icon">
+							<mat-icon>bookmark_border</mat-icon>
+						</button>
+					</mat-card-actions>
+				</mat-card>
 			</div>
 		</div>
 
