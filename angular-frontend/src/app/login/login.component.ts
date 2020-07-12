@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../core/auth.service'
-import { Router, Params } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
+import { catchError, take } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private router: Router,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {
     this.createForm();
@@ -30,35 +34,108 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  tryFacebookLogin(){
-    this.authService.doFacebookLogin()
-    .then(res => {
-      this.router.navigate(['/user']);
-    })
+  tryTwitterLogin() {
+    this.authService
+      .loginViaTwitter()
+      .pipe(
+        take(1),
+        catchError((error) => {
+          this.snackBar.open(`${error.message} 😢`, 'Close', {
+            duration: 4000,
+          });
+          return EMPTY;
+        }),
+      )
+      .subscribe(
+        (response) =>
+          response &&
+          this.router.navigate(['/library']) &&
+          this.snackBar.open(
+            `Welcome to our library. 😊`,
+            'Close',
+            {
+              duration: 4000,
+            },
+          ),
+      );
   }
 
-  tryTwitterLogin(){
-    this.authService.doTwitterLogin()
-    .then(res => {
-      this.router.navigate(['/user']);
-    })
+  tryFacebookLogin() {
+    this.authService
+      .loginViaFacebook()
+      .pipe(
+        take(1),
+        catchError((error) => {
+          this.snackBar.open(`${error.message} 😢`, 'Close', {
+            duration: 4000,
+          });
+          return EMPTY;
+        }),
+      )
+      .subscribe(
+        (response) =>
+          response &&
+          this.router.navigate(['/library']) &&
+          this.snackBar.open(
+            `Welcome to our library. 😊`,
+            'Close',
+            {
+              duration: 4000,
+            },
+          ),
+      );
   }
 
-  tryGoogleLogin(){
-    this.authService.doGoogleLogin()
-    .then(res => {
-      this.router.navigate(['/user']);
-    })
+  tryGoogleLogin() {
+    this.authService
+      .loginViaGoogle()
+      .pipe(
+        take(1),
+        catchError((error) => {
+          this.snackBar.open(`${error.message} 😢`, 'Close', {
+            duration: 4000,
+          });
+          return EMPTY;
+        }),
+      )
+      .subscribe(
+        (response) =>
+          response &&
+          this.router.navigate(['/library']) &&
+          this.snackBar.open(
+            `Welcome to our library. 😊`,
+            'Close',
+            {
+              duration: 4000,
+            },
+          ),
+      );
   }
 
   tryLogin(value){
-    this.authService.doLogin(value)
-    .then(res => {
-      this.router.navigate(['/user']);
-    }, err => {
-      console.log(err);
-      this.errorMessage = err.message;
-    })
+    this.authService
+      .login(value)
+      .pipe(
+        take(1),
+        catchError((error) => {
+          this.snackBar.open(`${error.message} 😢`, 'Close', {
+            duration: 4000,
+          });
+          return EMPTY;
+        }),
+      )
+      .subscribe(
+        (response) =>
+          response &&
+          this.router.navigate(['/library']) &&
+          this.snackBar.open(
+            `Welcome to our library. 😊`,
+            'Close',
+            {
+              duration: 4000,
+            },
+          ),
+      );
   }
 
 }

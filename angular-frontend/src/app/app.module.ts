@@ -16,14 +16,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { UserComponent } from './user/user.component';
-import { UserResolver } from './user/user.resolver';
-import { AuthGuard } from './core/auth.guard';
-import { AuthService } from './core/auth.service';
-import { UserService } from './core/user.service';
-import { SearchService } from './search.service';
+import { SearchService } from './services/search.service';
 import { firebase } from '../environments/env';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
 	declarations: [
@@ -32,8 +28,8 @@ import { firebase } from '../environments/env';
 		HeaderComponent,
 		SidenavListComponent,
 		LoginComponent,
-		RegisterComponent,
-		UserComponent
+		UserComponent,
+		RegisterComponent
 	],
 	imports: [
 		BrowserModule,
@@ -46,7 +42,6 @@ import { firebase } from '../environments/env';
     	AngularFirestoreModule, // imports firebase/firestore, only needed for database features
    		AngularFireAuthModule // imports firebase/auth, only needed for auth features
 	],
-	providers: [AuthService, UserService, UserResolver, AuthGuard,SearchService],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,15 +1,19 @@
 <p>
 	<mat-toolbar color="primary">
-	 <button mat-icon-button class="example-icon" (click)="onToggleSidenav()" aria-label="Example icon-button with menu icon">
-	  <mat-icon>menu</mat-icon>
-	</button>
-	<span>Book Library</span>
-	<span class="example-spacer"></span>
-	<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-	  <mat-icon>email</mat-icon>
-	</button>
-	<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-	 <mat-icon>share</mat-icon>
-   </button>
-  </mat-toolbar>
+		<button mat-icon-button class="example-icon" (click)="onToggleSidenav()"
+			aria-label="Example icon-button with menu icon">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<span>Book Library</span>
+		<span class="example-spacer"></span>
+		<ng-container *ngIf="user$ | async as user; else loginIcon">
+			<app-user [user]="user" (logoutClick)="logout()">
+			</app-user>
+		</ng-container>
+		<ng-template #loginIcon>
+			<button mat-button routerLink="/login">
+				Login/Register
+			</button>
+		</ng-template>
+	</mat-toolbar>
 </p>

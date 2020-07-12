@@ -1,13 +1,33 @@
-.header{
-    text-align: center;
-    font-size: 30px;
-    margin-bottom: 40px;
-  }
-  
-.row{
-    margin-top: 10px;
+.avatar {
+  margin-left: 5px;
+  width: 35px;
+  height: 35px;
 }
-  
-.image {
-    width: 100%
+
+.big-avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+.profile-card {
+  text-align: center;
+  min-width: 240px;
+  padding: 15px 20px 0px;
+}
+
+p {
+  color: #666666;
+}
+
+mat-divider {
+  margin: 10px 0;
+}
+
+.profile-footer {
+  margin-top: 20px;
+}
+
+.mat-mini-fab {
+  box-shadow: none;
 }
